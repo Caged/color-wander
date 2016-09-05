@@ -1,0 +1,34 @@
+#!/usr/bin/env node
+
+var yargs = require('yargs'),
+    createConfig = require('../config'),
+    createFileRenderer = require('../lib/createFileRenderer')
+
+var argv = yargs
+  .help('help')
+  .usage('Usage: $0 -w [num] -h [num]')
+  .option('width', {
+    default: 2176,
+    describe: 'set width of output image'
+  })
+  .option('height', {
+    default: 1224,
+    describe: 'set height of output image'
+  })
+  .option('seed', {
+    describe: 'set the seed used to generate a pattern'
+  })
+  .option('source', {
+    describe: 'set the seed used to generate a pattern'
+  })
+  .argv
+
+var config = createConfig(argv.seed);
+config.width = argv.width
+config.height = argv.height
+
+if(argv.source) {
+  config.backgroundSrc = argv.source
+}
+
+createFileRenderer(config);
