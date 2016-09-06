@@ -2,17 +2,18 @@
 
 var yargs = require('yargs'),
     createConfig = require('../config'),
-    createFileRenderer = require('../lib/createFileRenderer')
+    createFileRenderer = require('../lib/createFileRenderer'),
+    palettes = require('../lib/color-palettes.json')
 
 var argv = yargs
   .help('help')
   .usage('Usage: $0 -w [num] -h [num]')
   .option('width', {
-    default: 2176,
+    default: 1275,
     describe: 'set width of output image'
   })
   .option('height', {
-    default: 1224,
+    default: 1650,
     describe: 'set height of output image'
   })
   .option('seed', {
@@ -26,9 +27,14 @@ var argv = yargs
 var config = createConfig(argv.seed);
 config.width = argv.width
 config.height = argv.height
+config.pixelRatio = 2
 
 if(argv.source) {
   config.backgroundSrc = argv.source
 }
 
-createFileRenderer(config);
+createFileRenderer(config)
+// for (var i = 0; i < palettes.length; i++) {
+//   var p = palettes[i]
+//   createFileRenderer(config)
+// }
