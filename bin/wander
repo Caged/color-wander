@@ -2,7 +2,7 @@
 
 var yargs = require('yargs'),
     createConfig = require('../config'),
-    createFileRenderer = require('../lib/createFileRenderer'),
+    createSyncFileRenderer = require('../lib/createSyncFileRenderer'),
     palettes = require('../lib/color-palettes.json')
 
 var argv = yargs
@@ -22,6 +22,9 @@ var argv = yargs
   .option('source', {
     describe: 'set the seed used to generate a pattern'
   })
+  .option('output', {
+    describe: 'name of image to write'
+  })
   .argv
 
 var config = createConfig(argv.seed);
@@ -33,8 +36,9 @@ if(argv.source) {
   config.backgroundSrc = argv.source
 }
 
-createFileRenderer(config)
-// for (var i = 0; i < palettes.length; i++) {
-//   var p = palettes[i]
-//   createFileRenderer(config)
-// }
+for (var i = 0; i < palettes.length; i++) {
+  var p = palettes[i]
+  config.palette = p
+  config.output = "output/" + i + "-" + config.seedName + ".png"
+  createSyncFileRenderer(config)
+}
